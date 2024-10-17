@@ -1,7 +1,7 @@
 <?php
-namespace Abbert\DatagridBundle\Service;
+namespace Skrepr\DatagridBundle\Service;
 
-use Abbert\Datagrid\Datasource\DoctrineSource;
+use Skrepr\Datagrid\Datasource\DoctrineSource;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -33,7 +33,7 @@ class Datagrid
 
     /**
      * @param $datagridClass
-     * @return \Abbert\Datagrid\Datagrid
+     * @return \Skrepr\Datagrid\Datagrid
      * @throws \Exception
      */
     public function create($datagridClass)
@@ -42,10 +42,10 @@ class Datagrid
         $reflection = new \ReflectionClass($datagridClass);
         $reader = new AnnotationReader();
 
-        $annotationDatagrid = $reader->getClassAnnotation($reflection, 'Abbert\\DatagridBundle\\Annotation\\Datagrid');
+        $annotationDatagrid = $reader->getClassAnnotation($reflection, 'Skrepr\\DatagridBundle\\Annotation\\Datagrid');
 
         // datasource
-        $annotation = $reader->getClassAnnotation($reflection, 'Abbert\\DatagridBundle\\Annotation\\DoctrineSource');
+        $annotation = $reader->getClassAnnotation($reflection, 'Skrepr\\DatagridBundle\\Annotation\\DoctrineSource');
 
         $setDatasource = null;
         if ($annotation !== null && $annotation->entityClass != '') {
@@ -57,10 +57,10 @@ class Datagrid
             // service
             $service = $this->container->get($this->serviceIds[$datagridClass]);
 
-            if ($service instanceof \Abbert\Datagrid\Datagrid) {
+            if ($service instanceof \Skrepr\Datagrid\Datagrid) {
                 $datagrid = clone $service;
             } else {
-                $datagrid = new \Abbert\Datagrid\Datagrid();
+                $datagrid = new \Skrepr\Datagrid\Datagrid();
                 $service->create($datagrid);
             }
         } else {

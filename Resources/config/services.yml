@@ -1,14 +1,14 @@
 services:
     # GRIDS
-    abbert_datagrid.datagrid:
-        class: Abbert\DatagridBundle\Service\Datagrid
+    skrepr_datagrid.datagrid:
+        class: Skrepr\DatagridBundle\Service\Datagrid
         arguments:
             - 'collectie met grids'
             - '@service_container'
-            - '%abbert_datagrid.view.path%'
+            - '%skrepr_datagrid.view.path%'
             - '@doctrine.orm.entity_manager'
 
-    abbert_datagrid.datagrid_base: # TODO naam??
-        class: Abbert\Datagrid\Datagrid
+    skrepr_datagrid.datagrid_base: # TODO naam??
+        class: Skrepr\Datagrid\Datagrid
         calls:
-            - [ setViewPath, [ '%abbert_datagrid.view.path%' ] ]
+            - [ setViewPath, [ '%skrepr_datagrid.view.path%' ] ]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Abbert\DatagridBundle\DependencyInjection;
+namespace Skrepr\DatagridBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

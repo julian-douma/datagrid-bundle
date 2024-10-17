@@ -1,6 +1,6 @@
 <?php
 
-namespace Abbert\DatagridBundle\DependencyInjection\Compiler;
+namespace Skrepr\DatagridBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

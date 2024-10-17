@@ -1,12 +1,12 @@
 <?php
 
-namespace Abbert\DatagridBundle;
+namespace Skrepr\DatagridBundle;
 
-use Abbert\DatagridBundle\DependencyInjection\Compiler\Datagrid;
+use Skrepr\DatagridBundle\DependencyInjection\Compiler\Datagrid;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AbbertDatagridBundle extends Bundle
+class SkreprDatagridBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

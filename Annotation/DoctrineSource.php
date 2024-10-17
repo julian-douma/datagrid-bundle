@@ -1,11 +1,11 @@
 <?php
-namespace Abbert\DatagridBundle\Annotation;
+namespace Skrepr\DatagridBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 
 /**
  * Class Datagrid
- * @package Abbert\Datagrid\Annotation
+ * @package Skrepr\Datagrid\Annotation
  * @Annotation
  */
 class DoctrineSource extends Annotation
