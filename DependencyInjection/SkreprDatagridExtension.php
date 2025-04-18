@@ -26,7 +26,7 @@ class SkreprDatagridExtension extends Extension
         $loader->load('services.yml');
 
         if ($config['view']['path']) {
-            $container->setParameter('skrepr_daragrid.view.path', $config['view']['path']);
+            $container->setParameter('skrepr_datagrid.view.path', $config['view']['path']);
         }
     }
 }

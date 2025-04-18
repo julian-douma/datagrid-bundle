@@ -9,11 +9,11 @@ class Datagrid implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('skrepr_daragrid.datagrid')) {
+        if (!$container->hasDefinition('skrepr_datagrid.datagrid')) {
             return;
         }
 
-        $definition = $container->getDefinition('skrepr_daragrid.datagrid');
+        $definition = $container->getDefinition('skrepr_datagrid.datagrid');
 
         $grids = array();
 
