@@ -12,26 +12,20 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('abbert_datagrid');
-
-        $dir = dirname(__FILE__);
-
+        $tb = new TreeBuilder('skrepr_datagrid');
+        $rootNode = $tb->getRootNode();
         $rootNode
             ->children()
             ->arrayNode('view')
             ->addDefaultsIfNotSet()
             ->children()
-            ->scalarNode('path')->defaultValue($dir . '/../Resources/views/datagrid.phtml')->end()
+            ->scalarNode('path')->defaultValue(dirname(__FILE__) . '/../Resources/views/datagrid.phtml')->end()
             ->end()
             ->end() // view
             ->end();
 
-        return $treeBuilder;
+        return $tb;
     }
 }

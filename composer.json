@@ -7,10 +7,21 @@
             "email": "albert@skrepr.com"
         }
     ],
+    "repositories": {
+        "skrepr/datagrid": {
+            "type": "vcs",
+            "url": "git@github.com:skrepr/datagrid.git"
+        }
+    },
     "require": {
-        "skrepr/datagrid": "^1.2.0"
+        "php": ">=8.2",
+        "symfony/dependency-injection": "^6.4|^7.0",
+        "symfony/http-kernel": "^6.4|^7.0",
+        "symfony/config": "^6.4|^7.0",
+        "skrepr/datagrid": "^1.2.0|dev-master"
     },
     "autoload": {
         "psr-4": { "Skrepr\\DatagridBundle\\": "" }
-    }
+    },
+    "minimum-stability": "dev"
 }
