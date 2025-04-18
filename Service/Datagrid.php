@@ -1,6 +1,9 @@
 <?php
 namespace Skrepr\DatagridBundle\Service;
 
+use ReflectionClass;
+use Skrepr\DatagridBundle\Attribute\Datagrid as DatagridAttribute;
+use Skrepr\DatagridBundle\Attribute\DoctrineSource as DoctrineSourceAttribute;
 use Skrepr\Datagrid\Datasource\DoctrineSource;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -38,55 +41,37 @@ class Datagrid
      */
     public function create($datagridClass)
     {
-        // annotation reader
-        $reflection = new \ReflectionClass($datagridClass);
-        $reader = new AnnotationReader();
+        $reflection = new ReflectionClass($datagridClass);
 
-        $annotationDatagrid = $reader->getClassAnnotation($reflection, 'Skrepr\\DatagridBundle\\Annotation\\Datagrid');
-
-        // datasource
-        $annotation = $reader->getClassAnnotation($reflection, 'Skrepr\\DatagridBundle\\Annotation\\DoctrineSource');
-
+        $attributes = $reflection->getAttributes();
+        $deps = [];
         $setDatasource = null;
-        if ($annotation !== null && $annotation->entityClass != '') {
-            $repo = $this->entityManager->getRepository($annotation->entityClass);
-            $setDatasource = new DoctrineSource($repo);
-        }
 
-        if (isset($this->serviceIds[$datagridClass])) {
-            // service
-            $service = $this->container->get($this->serviceIds[$datagridClass]);
+        foreach ($attributes as $attribute) {
+            $instance = $attribute->newInstance();
 
-            if ($service instanceof \Skrepr\Datagrid\Datagrid) {
-                $datagrid = clone $service;
-            } else {
-                $datagrid = new \Skrepr\Datagrid\Datagrid();
-                $service->create($datagrid);
-            }
-        } else {
-            // normale class, hier worden dependencies ondersteund
-            $deps = [];
-            if ($annotationDatagrid !== null && count($annotationDatagrid->dependencies)) {
-                foreach ($annotationDatagrid->dependencies as $dep) {
-                    if (strstr($dep, '@')) {
-                        $deps[] = $this->container->get(str_replace('@', '', $dep));
-                    } else if(strstr($dep, '%')) {
-                        $deps[] = $this->container->getParameter(str_replace('%', '', $dep));
+            if ($instance instanceof DatagridAttribute) {
+                foreach ($instance->dependencies as $dep) {
+                    if (str_starts_with($dep, '@')) {
+                        $deps[] = $this->container->get(ltrim($dep, '@'));
+                    } elseif (str_starts_with($dep, '%')) {
+                        $deps[] = $this->container->getParameter(trim($dep, '%'));
                     }
                 }
             }
 
-            if ($setDatasource !== null) {
-                $deps[] = $setDatasource;
+            if ($instance instanceof DoctrineSourceAttribute && $instance->entityClass) {
+                $repo = $this->entityManager->getRepository($instance->entityClass);
+                $setDatasource = new DoctrineSource($repo);
             }
-
-            $datagrid = call_user_func_array(
-                array($reflection, 'newInstance'),
-                $deps
-            );
         }
 
-        // configuratie
+        if ($setDatasource !== null) {
+            $deps[] = $setDatasource;
+        }
+
+        $datagrid = $reflection->newInstanceArgs($deps);
+
         $datagrid->setViewPath($this->viewPath);
 
         if ($setDatasource !== null) {
