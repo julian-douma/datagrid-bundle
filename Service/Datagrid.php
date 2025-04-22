@@ -56,6 +56,8 @@ class Datagrid
                         $deps[] = $this->container->get(ltrim($dep, '@'));
                     } elseif (str_starts_with($dep, '%')) {
                         $deps[] = $this->container->getParameter(trim($dep, '%'));
+                    } else {
+                        $deps[] = $this->container->get($dep);
                     }
                 }
             }
