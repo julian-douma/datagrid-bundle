@@ -1,37 +1,27 @@
 <?php
+
 namespace Skrepr\DatagridBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use ReflectionClass;
+use Skrepr\Datagrid\Datasource\DoctrineSource;
 use Skrepr\DatagridBundle\Attribute\Datagrid as DatagridAttribute;
 use Skrepr\DatagridBundle\Attribute\DoctrineSource as DoctrineSourceAttribute;
-use Skrepr\Datagrid\Datasource\DoctrineSource;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\Annotations\AnnotationReader;
 
 class Datagrid
 {
     /**
-     * @var array
-     */
-    private $serviceIds;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
      * @var string
      */
-    private $viewPath;
+    private string $viewPath;
 
-    public function __construct($serviceIds, ContainerInterface $container, $viewPath, EntityManager $entityManager)
+    public function __construct(
+        private ContainerInterface     $container,
+        string                         $viewPath,
+        private EntityManagerInterface $entityManager)
     {
-        $this->serviceIds = $serviceIds;
-        $this->container = $container;
         $this->viewPath = $viewPath;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -39,7 +29,7 @@ class Datagrid
      * @return \Skrepr\Datagrid\Datagrid
      * @throws \Exception
      */
-    public function create($datagridClass)
+    public function create($datagridClass): \Skrepr\Datagrid\Datagrid
     {
         $reflection = new ReflectionClass($datagridClass);
 
