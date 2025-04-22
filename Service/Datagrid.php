@@ -26,6 +26,8 @@ class Datagrid
      */
     private string $viewPath;
 
+    private EntityManagerInterface $entityManager;
+
     public function __construct($serviceIds, ContainerInterface $container, $viewPath, EntityManagerInterface $entityManager)
     {
         $this->serviceIds = $serviceIds;
